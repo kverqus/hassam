@@ -4,6 +4,7 @@
     "codeowners": ["@kverqus"],
     "config_flow": true,
     "documentation": "https://github.com/kverqus/hassam",
+    "integration_type": "hub",
     "iot_class": "cloud_polling",
     "issue_tracker": "https://github.com/kverqus/hassam/issues",
     "requirements": [
