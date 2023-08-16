@@ -25,5 +25,17 @@
                 }
             }
         }
+    },
+    "services": {
+        "find_address": {
+            "name": "Hitta adress-sträng",
+            "description": "Söker efter en adress. Svaret innehåller en lista på upp till 10 adresser",
+            "fields": {
+                "search_string": {
+                    "name": "Söksträng",
+                    "description": "Fyll i din adress"
+                }
+            }
+        }
     }
 }
