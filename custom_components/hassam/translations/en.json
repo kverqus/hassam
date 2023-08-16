@@ -1,0 +1,29 @@
+{
+    "title": "SSAM Waste Pickup Schedule",
+    "config": {
+        "step": {
+            "user": {
+                "description": "Enter a name for the integration.",
+                "data": {
+                    "name": "Integration name"
+                }
+            },
+            "config": {
+                "description": "Change integration parameters.",
+                "data": {
+                    "building_address": "Building address"
+                }
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "user": {
+                "description": "Change integration parameters.",
+                "data": {
+                    "building_address": "Building address"
+                }
+            }
+        }
+    }
+}

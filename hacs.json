@@ -1,0 +1,8 @@
+{
+    "name": "SSAM Hämtschema",
+    "content_in_root": false,
+    "country": "SE",
+    "render_readme": true,
+    "homeassistant": "2023.8.2",
+    "zip_release": false
+  }

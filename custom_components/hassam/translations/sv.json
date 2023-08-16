@@ -1,0 +1,29 @@
+{
+    "title": "SSAM Hämtschema",
+    "config": {
+        "step": {
+            "user": {
+                "description": "Ange ett namn för integrationen.",
+                "data": {
+                    "name": "Namn"
+                }
+            },
+            "config": {
+                "description": "Ändra integrationens parametrar.",
+                "data": {
+                    "building_address": "Adress"
+                }
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "user": {
+                "description": "Ändra integrationens parametrar.",
+                "data": {
+                    "building_address": "Adress"
+                }
+            }
+        }
+    }
+}

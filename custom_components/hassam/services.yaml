@@ -1,0 +1,10 @@
+find_address:
+  description: Searches for an address using a free text string. Response will include up to 10 addresses.
+  fields:
+    search_string:
+      description: Enter your address
+      advanced: false
+      name: Address
+      example: Storgatan 1
+      selector:
+        text:
