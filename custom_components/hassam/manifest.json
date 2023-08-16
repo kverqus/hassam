@@ -1,14 +1,14 @@
 {
     "domain": "hassam",
-    "documentation": "https://github.com/kverqus/hassam",
-    "issue_tracker": "https://github.com/kverqus/hassam/issues",
     "name": "SSAM Hämtschema",
     "codeowners": ["@kverqus"],
+    "config_flow": true,
+    "documentation": "https://github.com/kverqus/hassam",
+    "iot_class": "cloud_polling",
+    "issue_tracker": "https://github.com/kverqus/hassam/issues",
     "requirements": [
         "httpx>0.12.1"
     ],
     "version": "0.1.0",
-    "iot_class": "cloud_polling",
-    "config_flow": true,
     "quality_scale": "silver"
 }
