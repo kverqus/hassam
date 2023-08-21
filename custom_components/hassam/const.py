@@ -1,7 +1,7 @@
 from homeassistant.const import CONF_NAME
 from datetime import timedelta
 
-__version__ = "0.0.1"
+__version__ = "1.0.0"
 VERSION = __version__
 DOMAIN = "hassam"
 
