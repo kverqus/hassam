@@ -29,7 +29,7 @@ class SSAMAPI(object):
                 )
 
         except Exception as err:
-            _LOGGER.debug(err)
+            _LOGGER.critical(err)
             raise err
 
         if request.status_code == 200:
@@ -54,7 +54,7 @@ class SSAMAPI(object):
                 )
         
         except Exception as err:
-            _LOGGER.debug(err)
+            _LOGGER.critical(err)
             raise err
 
         if request.status_code == 200:
