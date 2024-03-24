@@ -40,23 +40,28 @@ async def async_setup_entry(
     async_add_entities
 ) -> None:
     ssam_api = SSAMAPI()
-    schedule_list = await ssam_api.get_schedule(config_entry.data.get('building_address'))
-    async_add_entities(
-        [ScheduleSensor(hass=hass, config=config_entry)],
-        update_before_add=True
+    schedule_list = await ssam_api.get_schedule(
+        config_entry.data.get('building_address')
     )
+
+    for schedule in schedule_list:
+        async_add_entities(
+            [ScheduleSensor(hass=hass, config=config_entry, schedule=schedule)],
+            update_before_add=True
+        )
 
 
 class ScheduleSensor(SensorEntity):
-    def __init__(self, hass: HomeAssistant, config: ConfigEntry):
+    def __init__(self, hass: HomeAssistant, config: ConfigEntry, schedule: dict):
         self.hass = hass
         self._config = config
         self._title = config.title
         self._state = None
         self._available = True
+        self._schedule = schedule
 
-        self._attr_unique_id = f'{DOMAIN}_{self._title}_{self._config.data.get("id")}'
-        self._attr_name = f'SSAM Schedule {self._title}'
+        self._attr_unique_id = f'{DOMAIN}_{self._schedule["bin_code"]}_{self._config.data.get("id")}'
+        self._attr_name = f'SSAM {self._title} {self._schedule["waste_type"]}'
         self._attr_icon = 'mdi:trash-can-outline'
         self._attr_attribution = SENSOR_ATTRIB
         self._attr_device_info = {
@@ -68,24 +73,34 @@ class ScheduleSensor(SensorEntity):
         }
 
     async def async_update(self) -> None:
+        bin_code = self._attr_unique_id.split('_')[1]
         ssam_api = SSAMAPI()
-        schedule_list = await ssam_api.get_schedule(self._config.options.get('building_address', self._config.data['building_address']))
+        schedule_list = await ssam_api.get_schedule(
+            self._config.options.get(
+                'building_address',
+                self._config.data['building_address']
+            )
+        )
 
-        if not schedule_list:
+        for schedule in schedule_list:
+            if schedule['bin_code'] == bin_code:
+                self._schedule = schedule
+
+        if not self._schedule:
             self._available = False
             return False
 
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         attributes = {
             'last_update': timestamp,
             'friendly_name': self._title,
-            'entries': {idx: schedule for idx, schedule in enumerate(schedule_list)}
+            **self._schedule
         }
 
         self._attr_extra_state_attributes = attributes
         self._state = timestamp
 
-        _LOGGER.debug('[hassam updater] Entity has been updated')
+        _LOGGER.debug(f'[hassam updater] Entity {self._attr_name} has been updated')
 
     @property
     def available(self) -> bool:
