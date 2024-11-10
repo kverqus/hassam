@@ -1,7 +1,4 @@
 import logging
-import time
-
-from datetime import timedelta
 
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.config_entries import ConfigEntry
@@ -32,7 +29,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
                 'result': result
             })
             return True
-        
+
         except Exception as err:
             _LOGGER.debug('[find_address] Lookup failed')
             hass.bus.fire(DOMAIN, {

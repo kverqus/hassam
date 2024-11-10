@@ -3,7 +3,7 @@ import uuid
 
 import voluptuous as vol
 
-from homeassistant import config_entries, exceptions
+from homeassistant import config_entries
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.data_entry_flow import FlowResult
 
@@ -81,7 +81,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 except Exception as err:
                     _LOGGER.error(f'[setup_integration] Entry creation failed for {self._name}: {str(err)}')
                     return self.async_abort(reason='not_supported')
-            
+
             return self.async_show_form(
                 step_id='config',
                 data_schema=DATA_SCHEMA,
