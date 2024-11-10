@@ -33,7 +33,9 @@ async def async_setup_entry(
     async_add_entities
 ) -> None:
     ssam_api = SSAMAPI()
-    schedule_list = await ssam_api.get_schedule(config_entry.data.get('building_address'))
+    schedule_list = await ssam_api.get_schedule(
+        config_entry.data.get('building_address')
+    )
 
     for schedule in schedule_list:
         async_add_entities(
@@ -66,7 +68,12 @@ class ScheduleSensor(SensorEntity):
     async def async_update(self) -> None:
         bin_code = self._attr_unique_id.split('_')[1]
         ssam_api = SSAMAPI()
-        schedule_list = await ssam_api.get_schedule(self._config.options.get('building_address', self._config.data['building_address']))
+        schedule_list = await ssam_api.get_schedule(
+            self._config.options.get(
+                'building_address',
+                 self._config.data['building_address']
+            )
+        )
 
         for schedule in schedule_list:
             if schedule['bin_code'] == bin_code:
