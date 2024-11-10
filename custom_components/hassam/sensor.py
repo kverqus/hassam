@@ -1,19 +1,12 @@
 import logging
-import time
 
-from typing import Callable, Optional, Union
-from datetime import datetime, timedelta
+from typing import Union
+from datetime import datetime
 
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import HomeAssistant
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.helpers.device_registry import DeviceEntryType
-from homeassistant.helpers.typing import (
-    HomeAssistantType,
-    ConfigType,
-    DiscoveryInfoType
-)
-from homeassistant.helpers.event import async_track_time_interval
 from homeassistant.const import (
     ATTR_IDENTIFIERS,
     ATTR_MANUFACTURER,
@@ -40,9 +33,7 @@ async def async_setup_entry(
     async_add_entities
 ) -> None:
     ssam_api = SSAMAPI()
-    schedule_list = await ssam_api.get_schedule(
-        config_entry.data.get('building_address')
-    )
+    schedule_list = await ssam_api.get_schedule(config_entry.data.get('building_address'))
 
     for schedule in schedule_list:
         async_add_entities(
@@ -60,8 +51,8 @@ class ScheduleSensor(SensorEntity):
         self._available = True
         self._schedule = schedule
 
-        self._attr_unique_id = f'{DOMAIN}_{self._schedule["bin_code"]}_{self._config.data.get("id")}'
-        self._attr_name = f'SSAM {self._title} {self._schedule["waste_type"]}'
+        self._attr_unique_id = f'{DOMAIN}_{self._schedule['bin_code']}_{self._config.data.get("id")}'
+        self._attr_name = f'SSAM {self._title} {self._schedule['waste_type']}'
         self._attr_icon = 'mdi:trash-can-outline'
         self._attr_attribution = SENSOR_ATTRIB
         self._attr_device_info = {
@@ -75,12 +66,7 @@ class ScheduleSensor(SensorEntity):
     async def async_update(self) -> None:
         bin_code = self._attr_unique_id.split('_')[1]
         ssam_api = SSAMAPI()
-        schedule_list = await ssam_api.get_schedule(
-            self._config.options.get(
-                'building_address',
-                self._config.data['building_address']
-            )
-        )
+        schedule_list = await ssam_api.get_schedule(self._config.options.get('building_address', self._config.data['building_address']))
 
         for schedule in schedule_list:
             if schedule['bin_code'] == bin_code:
@@ -90,7 +76,7 @@ class ScheduleSensor(SensorEntity):
             self._available = False
             return False
 
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         attributes = {
             'last_update': timestamp,
             'friendly_name': self._title,
